@@ -1,4 +1,8 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
+import "./config/database.config";
 
 const app = express();
 
