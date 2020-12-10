@@ -8,4 +8,4 @@ const authorSchema = new Schema({
 	},
 });
 
-export default model<IAuthor>("Book", authorSchema);
+export default model<IAuthor>("Author", authorSchema);
