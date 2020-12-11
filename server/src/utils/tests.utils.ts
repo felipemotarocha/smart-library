@@ -31,4 +31,8 @@ export const setupDatabase = async () => {
 	await Book.deleteMany({});
 	await Genre.deleteMany({});
 	await Author.deleteMany({});
+
+	await new Book(MOCKED_BOOK).save();
+	await new Genre(MOCKED_GENRE).save();
+	await new Author(MOCKED_AUTHOR).save();
 };
