@@ -1,4 +1,5 @@
 import request from "supertest";
+import faker from "faker";
 
 import app from "../../app";
 import Book from "../../models/book/book.model";
@@ -18,9 +19,38 @@ describe("Books Related Requests", () => {
 			await request(app).post("/books").send(MOCKED_BOOK).expect(201);
 
 			const createdBook = await Book.findById(MOCKED_BOOK_ID);
+
 			expect(createdBook).not.toBeNull();
 			expect(createdBook!.author).toStrictEqual(MOCKED_AUTHOR_ID);
 			expect(createdBook!.genre).toStrictEqual(MOCKED_GENRE_ID);
+		});
+		it("should not create a book when an invalid author is provided", async () => {
+			await Book.deleteMany({});
+
+			await request(app)
+				.post("/books")
+				.send({ ...MOCKED_BOOK, author: faker.random.uuid })
+				.expect(500);
+		});
+		it("should not create a book when an invalid genre is provided", async () => {
+			await Book.deleteMany({});
+
+			await request(app)
+				.post("/books")
+				.send({ ...MOCKED_BOOK, genre: faker.random.uuid })
+				.expect(500);
+		});
+		it("should not create a book when an invalid author and genre is provided", async () => {
+			await Book.deleteMany({});
+
+			await request(app)
+				.post("/books")
+				.send({
+					...MOCKED_BOOK,
+					author: faker.random.uuid,
+					genre: faker.random.uuid,
+				})
+				.expect(500);
 		});
 	});
 });
