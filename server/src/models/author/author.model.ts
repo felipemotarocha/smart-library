@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+
 import { IAuthor } from "./author.model.types";
 
 const authorSchema = new Schema({
@@ -8,4 +9,6 @@ const authorSchema = new Schema({
 	},
 });
 
-export default model<IAuthor>("Author", authorSchema);
+const Author = model<IAuthor>("Author", authorSchema);
+
+export default Author;

@@ -5,6 +5,6 @@ import { IGenre } from "../genre/genre.model.types";
 export interface IBook extends Document {
 	title: string;
 	coverImageUrl: string;
-	authorId: IAuthor["_id"];
-	genreId: IGenre["_id"];
+	author: IAuthor["_id"];
+	genre: IGenre["_id"];
 }

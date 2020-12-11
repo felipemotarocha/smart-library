@@ -1,15 +1,21 @@
 import mongoose from "mongoose";
 
 const main = async () => {
-	await mongoose.connect(
-		`mongodb+srv://admin:${process.env.MONGODB_DATABASE_PASSOWRD}@smart-library-cluster.1zkye.mongodb.net/smart-library?retryWrites=true&w=majority`,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-			useFindAndModify: false,
-			useCreateIndex: true,
-		}
-	);
+	let CONNECTION_STRING = "";
+
+	if (process.env.NODE_ENV === "test")
+		CONNECTION_STRING = process.env.MONGODB_TEST_DATABASE_CONNECTION_STRING!;
+
+	if (process.env.NODE_ENV === "development")
+		CONNECTION_STRING = process.env
+			.MONGODB_DEVELOPMENT_DATABASE_CONNECTION_STRING!;
+
+	await mongoose.connect(CONNECTION_STRING, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useFindAndModify: false,
+		useCreateIndex: true,
+	});
 };
 
 main();

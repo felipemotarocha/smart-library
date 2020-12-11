@@ -10,7 +10,10 @@ const bookSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	authorId: Schema.Types.ObjectId,
+	author: Schema.Types.ObjectId,
+	genre: Schema.Types.ObjectId,
 });
 
-export default model<IBook>("Book", bookSchema);
+const Book = model<IBook>("Book", bookSchema);
+
+export default Book;

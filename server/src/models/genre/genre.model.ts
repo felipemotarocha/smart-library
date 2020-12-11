@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+
 import { IGenre } from "./genre.model.types";
 
 const genreSchema = new Schema({
@@ -13,4 +14,6 @@ const genreSchema = new Schema({
 	authorId: Schema.Types.ObjectId,
 });
 
-export default model<IGenre>("Genre", genreSchema);
+const Genre = model<IGenre>("Genre", genreSchema);
+
+export default Genre;
