@@ -10,8 +10,14 @@ const bookSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	author: Schema.Types.ObjectId,
-	genre: Schema.Types.ObjectId,
+	author: {
+		type: Schema.Types.ObjectId,
+		ref: "Author",
+	},
+	genre: {
+		type: Schema.Types.ObjectId,
+		ref: "Genre",
+	},
 });
 
 const Book = model<IBook>("Book", bookSchema);

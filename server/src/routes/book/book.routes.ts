@@ -7,7 +7,10 @@ const router = Router();
 
 router.get("/", async (_req: Request, res: Response) => {
 	try {
-		const books = await Book.find({});
+		const books = await Book.find({})
+			.populate("author")
+			.populate("genre")
+			.exec();
 		return res.status(200).send(books);
 	} catch (err) {
 		return res.status(500).send(err.message);
