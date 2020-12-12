@@ -14,6 +14,19 @@ router.get("/", async (_req: Request, res: Response) => {
 	}
 });
 
+router.get("/:bookId", async (req: Request, res: Response) => {
+	try {
+		const {
+			params: { bookId },
+		} = req;
+		const book = await Book.findById(bookId);
+
+		return res.status(200).send(book);
+	} catch (err) {
+		return res.status(500).send(err.message);
+	}
+});
+
 router.post("/", async (req: Request, res: Response) => {
 	try {
 		const {

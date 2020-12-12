@@ -6,13 +6,17 @@ import Book from "../../models/book/book.model";
 
 import {
 	MOCKED_AUTHOR_ID,
+	MOCKED_AUTHOR_WITH_ID_STRINGFIED,
 	MOCKED_BOOK,
 	MOCKED_BOOK_ID,
+	MOCKED_BOOK_ID_STRINGFIED,
 	MOCKED_GENRE_ID,
+	MOCKED_GENRE_WITH_ID_STRINGFIED,
 } from "../../utils/tests.utils";
+import { Book as BookType } from "../../types/book.types";
 
 describe("Books Related Requests", () => {
-	describe("Create a book", () => {
+	describe("POST Requests", () => {
 		it("should create a book", async () => {
 			await Book.deleteMany({});
 
@@ -54,6 +58,37 @@ describe("Books Related Requests", () => {
 					genre: faker.random.uuid,
 				})
 				.expect(500);
+		});
+	});
+	describe("GET Requests", () => {
+		it("should get all the books", async () => {
+			const { body: books }: { body: BookType[] } = await request(app).get(
+				"/books"
+			);
+
+			const firstBook = books[0];
+
+			expect(books).toBeDefined();
+			expect(firstBook).toBeDefined();
+			expect(firstBook._id).toStrictEqual(MOCKED_BOOK_ID_STRINGFIED);
+			expect(firstBook.title).toStrictEqual(MOCKED_BOOK.title);
+			expect(firstBook.coverImageUrl).toStrictEqual(MOCKED_BOOK.coverImageUrl);
+			expect(firstBook.author).toStrictEqual(MOCKED_AUTHOR_WITH_ID_STRINGFIED);
+			expect(firstBook.genre).toStrictEqual(MOCKED_GENRE_WITH_ID_STRINGFIED);
+		});
+		it("should get a book by id", async () => {
+			const { body } = await request(app).get(
+				`/books?${MOCKED_BOOK_ID_STRINGFIED}`
+			);
+
+			const book: BookType = body[0];
+
+			expect(book).toBeDefined();
+			expect(book._id).toStrictEqual(MOCKED_BOOK_ID_STRINGFIED);
+			expect(book.title).toStrictEqual(MOCKED_BOOK.title);
+			expect(book.coverImageUrl).toStrictEqual(MOCKED_BOOK.coverImageUrl);
+			expect(book.author).toStrictEqual(MOCKED_AUTHOR_WITH_ID_STRINGFIED);
+			expect(book.genre).toStrictEqual(MOCKED_GENRE_WITH_ID_STRINGFIED);
 		});
 	});
 });
