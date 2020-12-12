@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { IBook } from "./book.model.types";
+import { IBookDocument } from "./book.model.types";
 
 const bookSchema = new Schema(
 	{
@@ -30,6 +30,6 @@ const bookSchema = new Schema(
 
 bookSchema.plugin(require("mongoose-autopopulate"));
 
-const Book = model<IBook>("Book", bookSchema);
+const Book = model<IBookDocument>("Book", bookSchema);
 
 export default Book;

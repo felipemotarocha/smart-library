@@ -1,9 +1,14 @@
-import { Document } from "mongoose";
+import { Document, Model } from "mongoose";
 
-import { IBook } from "../book/book.model.types";
+import { IBookDocument } from "../book/book.model.types";
 
-export interface IGenre extends Document {
+export interface IGenreDocument extends Document {
 	name: string;
 	displayName: string;
-	books: IBook[];
+	books: IBookDocument[];
+}
+
+export interface IGenreModel extends Model<IGenreDocument> {
+	findByIdAndPopulateBooksField: (id: string) => Promise<any>;
+	findAllAndPopulateBooksField: () => Promise<any>;
 }

@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-import { IAuthor } from "./author.model.types";
+import { IAuthorDocument } from "./author.model.types";
 
 const authorSchema = new Schema(
 	{
@@ -22,6 +22,6 @@ authorSchema.virtual("books", {
 	foreignField: "author",
 });
 
-const Author = model<IAuthor>("Author", authorSchema);
+const Author = model<IAuthorDocument>("Author", authorSchema);
 
 export default Author;

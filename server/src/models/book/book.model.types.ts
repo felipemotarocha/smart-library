@@ -1,11 +1,11 @@
 import { Document } from "mongoose";
 
-import { IAuthor } from "../author/author.model.types";
-import { IGenre } from "../genre/genre.model.types";
+import { IAuthorDocument } from "../author/author.model.types";
+import { IGenreDocument } from "../genre/genre.model.types";
 
-export interface IBook extends Document {
+export interface IBookDocument extends Document {
 	title: string;
 	coverImageUrl: string;
-	author: IAuthor;
-	genre: IGenre;
+	author: IAuthorDocument;
+	genre: IGenreDocument;
 }

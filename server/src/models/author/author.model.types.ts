@@ -1,7 +1,7 @@
 import { Document } from "mongoose";
-import { IBook } from "../book/book.model.types";
+import { IBookDocument } from "../book/book.model.types";
 
-export interface IAuthor extends Document {
+export interface IAuthorDocument extends Document {
 	name: string;
-	books?: IBook[];
+	books?: IBookDocument[];
 }

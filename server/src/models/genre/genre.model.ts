@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Model } from "mongoose";
 
-import { IGenre } from "./genre.model.types";
+import { IGenreDocument, IGenreModel } from "./genre.model.types";
 
 const genreSchema = new Schema(
 	{
@@ -12,7 +12,6 @@ const genreSchema = new Schema(
 			type: String,
 			required: true,
 		},
-		authorId: Schema.Types.ObjectId,
 	},
 	{
 		toJSON: { virtuals: true },
@@ -27,6 +26,20 @@ genreSchema.virtual("books", {
 	foreignField: "genre",
 });
 
-const Genre = model<IGenre>("Genre", genreSchema);
+genreSchema.static(
+	"findAllAndPopulateBooksField",
+	function (this: Model<IGenreDocument>) {
+		return this.find({}).populate("books").exec();
+	}
+);
+
+genreSchema.static(
+	"findByIdAndPopulateBooksField",
+	function (this: Model<IGenreDocument>, id: string) {
+		return this.findById(id).populate("books").exec();
+	}
+);
+
+const Genre = model<IGenreDocument, IGenreModel>("Genre", genreSchema);
 
 export default Genre;

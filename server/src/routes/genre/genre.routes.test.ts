@@ -5,7 +5,7 @@ import app from "../../app";
 import Genre from "../../models/genre/genre.model";
 import {
 	Genre as GenreType,
-	GenreWithBooksPopulated,
+	GenreWithBooksPopulated as GenreWithBooksPopulatedType,
 } from "../../types/genre.types";
 
 import {
@@ -14,6 +14,7 @@ import {
 	MOCKED_BOOK_ID_STRINGFIED,
 	MOCKED_GENRE,
 	MOCKED_GENRE_ID,
+	MOCKED_GENRE_ID_STRINGFIED,
 	MOCKED_GENRE_WITH_ID_STRINGFIED,
 } from "../../utils/tests.utils";
 
@@ -41,7 +42,7 @@ describe("Genre Related Requests", () => {
 		it("should get all the genres with their books", async () => {
 			const {
 				body: genresWithBooks,
-			}: { body: GenreWithBooksPopulated[] } = await request(app)
+			}: { body: GenreWithBooksPopulatedType[] } = await request(app)
 				.get("/genres?withBooks=true")
 				.expect(200);
 
@@ -53,6 +54,42 @@ describe("Genre Related Requests", () => {
 			expect(firstBookOfTheGenre).toBeDefined();
 			expect(firstBookOfTheGenre._id).toStrictEqual(MOCKED_BOOK_ID_STRINGFIED);
 			expect(firstBookOfTheGenre.title).toStrictEqual(MOCKED_BOOK.title);
+			expect(firstBookOfTheGenre.author).toStrictEqual(
+				MOCKED_AUTHOR_WITH_ID_STRINGFIED
+			);
+			expect(firstBookOfTheGenre.genre).toStrictEqual(
+				MOCKED_GENRE_WITH_ID_STRINGFIED
+			);
+		});
+		it("should get a genre by id", async () => {
+			const { body: genre }: { body: GenreType } = await request(app)
+				.get(`/genres/${MOCKED_GENRE_ID_STRINGFIED}`)
+				.expect(200);
+
+			expect(genre).toBeDefined();
+			expect(genre).toStrictEqual(MOCKED_GENRE_WITH_ID_STRINGFIED);
+		});
+		it("should get a genre by id and its books", async () => {
+			const {
+				body: genreWithBooks,
+			}: { body: GenreWithBooksPopulatedType } = await request(app)
+				.get(`/genres/${MOCKED_GENRE_ID_STRINGFIED}?withBooks=true`)
+				.expect(200);
+
+			const firstBookOfTheGenre = genreWithBooks.books[0];
+
+			expect(genreWithBooks).toBeDefined();
+
+			expect(genreWithBooks._id).toStrictEqual(MOCKED_GENRE_ID_STRINGFIED);
+			expect(genreWithBooks.name).toStrictEqual(MOCKED_GENRE.name);
+			expect(genreWithBooks.displayName).toStrictEqual(
+				MOCKED_GENRE.displayName
+			);
+			expect(firstBookOfTheGenre._id).toStrictEqual(MOCKED_BOOK_ID_STRINGFIED);
+			expect(firstBookOfTheGenre.title).toStrictEqual(MOCKED_BOOK.title);
+			expect(firstBookOfTheGenre.coverImageUrl).toStrictEqual(
+				MOCKED_BOOK.coverImageUrl
+			);
 			expect(firstBookOfTheGenre.author).toStrictEqual(
 				MOCKED_AUTHOR_WITH_ID_STRINGFIED
 			);
