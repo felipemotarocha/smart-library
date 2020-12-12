@@ -3,9 +3,23 @@ import Author from "../../models/author/author.model";
 
 const router = Router();
 
-router.get("/", async (_req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
 	try {
+		const {
+			query: { withBooks },
+		} = req;
+
+		if (withBooks === "true") {
+			const authorsWithBooks = await Author.find({}).populate({
+				path: "books",
+				populate: { path: "genre" },
+			});
+
+			return res.status(200).send(authorsWithBooks);
+		}
+
 		const authors = await Author.find({});
+
 		return res.status(200).send(authors);
 	} catch (err) {
 		return res.status(500).send(err.message);

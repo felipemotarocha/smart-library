@@ -13,12 +13,16 @@ const bookSchema = new Schema({
 	author: {
 		type: Schema.Types.ObjectId,
 		ref: "Author",
+		autopopulate: true,
 	},
 	genre: {
 		type: Schema.Types.ObjectId,
 		ref: "Genre",
+		autopopulate: true,
 	},
 });
+
+bookSchema.plugin(require("mongoose-autopopulate"));
 
 const Book = model<IBook>("Book", bookSchema);
 

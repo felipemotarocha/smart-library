@@ -24,8 +24,8 @@ describe("Books Related Requests", () => {
 			const createdBook = await Book.findById(MOCKED_BOOK_ID);
 
 			expect(createdBook).not.toBeNull();
-			expect(createdBook!.author).toStrictEqual(MOCKED_AUTHOR_ID);
-			expect(createdBook!.genre).toStrictEqual(MOCKED_GENRE_ID);
+			expect(createdBook!.author._id).toStrictEqual(MOCKED_AUTHOR_ID);
+			expect(createdBook!.genre._id).toStrictEqual(MOCKED_GENRE_ID);
 		});
 		it("should not create a book when an invalid author is provided", async () => {
 			await Book.deleteMany({});

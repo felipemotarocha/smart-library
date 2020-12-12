@@ -11,8 +11,14 @@ router.get("/", async (req: Request, res: Response) => {
 		} = req;
 
 		if (withBooks === "true") {
-			const genresWithBooks = await Genre.find({}).populate("books").exec();
-			return res.status(200).send(genresWithBooks);
+			const genresWithBooksAndEachBookWithItsAuthor = await Genre.find(
+				{}
+			).populate({
+				path: "books",
+				populate: { path: "author" },
+			});
+
+			return res.status(200).send(genresWithBooksAndEachBookWithItsAuthor);
 		}
 
 		const genres = await Genre.find({});
