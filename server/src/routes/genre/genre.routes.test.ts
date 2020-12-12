@@ -9,12 +9,12 @@ import {
 } from "../../types/genre.types";
 
 import {
-	MOCKED_AUTHOR_ID_STRINGIFIED,
+	MOCKED_AUTHOR_WITH_ID_STRINGFIED,
 	MOCKED_BOOK,
 	MOCKED_BOOK_ID_STRINGFIED,
 	MOCKED_GENRE,
 	MOCKED_GENRE_ID,
-	MOCKED_GENRE_ID_STRINGFIED,
+	MOCKED_GENRE_WITH_ID_STRINGFIED,
 } from "../../utils/tests.utils";
 
 describe("Genre Related Requests", () => {
@@ -25,6 +25,7 @@ describe("Genre Related Requests", () => {
 			await request(app).post("/genres").send(MOCKED_GENRE).expect(201);
 
 			const createdGenre = await Genre.findById(MOCKED_GENRE_ID);
+
 			expect(createdGenre).not.toBeNull();
 		});
 	});
@@ -35,9 +36,7 @@ describe("Genre Related Requests", () => {
 			const firstGenre: GenreType = genres[0];
 
 			expect(genres).not.toBeNull();
-			expect(firstGenre._id).toBe(MOCKED_GENRE_ID_STRINGFIED);
-			expect(firstGenre.name).toBe(MOCKED_GENRE.name);
-			expect(firstGenre.displayName).toBe(MOCKED_GENRE.displayName);
+			expect(firstGenre).toStrictEqual(MOCKED_GENRE_WITH_ID_STRINGFIED);
 		});
 		it("should get all the genres with their books", async () => {
 			const {
@@ -54,11 +53,11 @@ describe("Genre Related Requests", () => {
 			expect(firstBookOfTheGenre).toBeDefined();
 			expect(firstBookOfTheGenre._id).toStrictEqual(MOCKED_BOOK_ID_STRINGFIED);
 			expect(firstBookOfTheGenre.title).toStrictEqual(MOCKED_BOOK.title);
-			expect(firstBookOfTheGenre.author._id).toStrictEqual(
-				MOCKED_AUTHOR_ID_STRINGIFIED
+			expect(firstBookOfTheGenre.author).toStrictEqual(
+				MOCKED_AUTHOR_WITH_ID_STRINGFIED
 			);
-			expect(firstBookOfTheGenre.genre._id).toStrictEqual(
-				MOCKED_GENRE_ID_STRINGFIED
+			expect(firstBookOfTheGenre.genre).toStrictEqual(
+				MOCKED_GENRE_WITH_ID_STRINGFIED
 			);
 		});
 	});

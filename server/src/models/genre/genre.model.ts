@@ -14,7 +14,11 @@ const genreSchema = new Schema(
 		},
 		authorId: Schema.Types.ObjectId,
 	},
-	{ toJSON: { virtuals: true } }
+	{
+		toJSON: { virtuals: true },
+		id: false,
+		versionKey: process.env.NODE_ENV === "test" && false,
+	}
 );
 
 genreSchema.virtual("books", {

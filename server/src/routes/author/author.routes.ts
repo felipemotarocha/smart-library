@@ -10,16 +10,11 @@ router.get("/", async (req: Request, res: Response) => {
 		} = req;
 
 		if (withBooks === "true") {
-			const authorsWithBooks = await Author.find({}).populate({
-				path: "books",
-				populate: { path: "genre" },
-			});
-
+			const authorsWithBooks = await Author.find({}).populate("books");
 			return res.status(200).send(authorsWithBooks);
 		}
 
 		const authors = await Author.find({});
-
 		return res.status(200).send(authors);
 	} catch (err) {
 		return res.status(500).send(err.message);

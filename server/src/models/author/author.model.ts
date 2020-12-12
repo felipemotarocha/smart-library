@@ -9,7 +9,11 @@ const authorSchema = new Schema(
 			required: true,
 		},
 	},
-	{ toJSON: { virtuals: true } }
+	{
+		toJSON: { virtuals: true },
+		id: false,
+		versionKey: process.env.NODE_ENV === "test" && false,
+	}
 );
 
 authorSchema.virtual("books", {
