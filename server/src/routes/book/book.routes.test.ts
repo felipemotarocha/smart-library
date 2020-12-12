@@ -16,7 +16,10 @@ describe("Books Related Requests", () => {
 		it("should create a book", async () => {
 			await Book.deleteMany({});
 
-			await request(app).post("/books").send(MOCKED_BOOK).expect(201);
+			await request(app)
+				.post("/books")
+				.send({ ...MOCKED_BOOK })
+				.expect(201);
 
 			const createdBook = await Book.findById(MOCKED_BOOK_ID);
 

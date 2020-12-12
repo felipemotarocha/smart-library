@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"scripts": {
 		"start:dev": "nodemon",
-		"test": "jest"
+		"test": "jest --runInBand --detectOpenHandles --watch"
 	},
 	"devDependencies": {
 		"@types/express": "^4.17.9",
