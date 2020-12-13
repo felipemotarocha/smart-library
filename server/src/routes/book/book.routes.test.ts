@@ -155,6 +155,7 @@ describe("Books Related Requests", () => {
 			expect(deletedBook.genre).toStrictEqual(
 				MOCKED_GENRE_ID_STRINGFIED as any
 			);
+			expect(await Book.findById(MOCKED_BOOK_ID_STRINGFIED)).toBeNull();
 		});
 	});
 });

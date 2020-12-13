@@ -1,4 +1,5 @@
 import request from "supertest";
+import faker from "faker";
 
 import app from "../../app";
 
@@ -68,6 +69,40 @@ describe("Author Related Requests", () => {
 			expect(firstAuthorFirstBook.genre).toStrictEqual(
 				MOCKED_GENRE_WITH_ID_STRINGFIED
 			);
+		});
+		describe("PATCH Requests", () => {
+			it("should update an author", async () => {
+				const updatedName = faker.name.title();
+
+				const { body: updatedAuthor }: { body: AuthorType } = await request(app)
+					.patch(`/authors/${MOCKED_AUTHOR_ID_STRINGIFIED}`)
+					.send({
+						name: updatedName,
+					})
+					.expect(200);
+
+				expect(updatedAuthor._id).toStrictEqual(MOCKED_AUTHOR_ID_STRINGIFIED);
+				expect(updatedAuthor.name).toBe(updatedName);
+			});
+			it("should not update an author when an invalid field is provided", async () => {
+				await request(app)
+					.patch(`/authors/${MOCKED_AUTHOR_ID_STRINGIFIED}`)
+					.send({
+						invalidField: faker.lorem.word(7),
+					})
+					.expect(500);
+			});
+		});
+		describe("DELETE Requests", () => {
+			it("should delete an author", async () => {
+				const { body: deletedAuthor }: { body: AuthorType } = await request(app)
+					.delete(`/authors/${MOCKED_AUTHOR_ID_STRINGIFIED}`)
+					.expect(200);
+
+				expect(deletedAuthor._id).toStrictEqual(MOCKED_AUTHOR_ID_STRINGIFIED);
+				expect(deletedAuthor.name).toBe(MOCKED_AUTHOR.name);
+				expect(await Author.findById(MOCKED_AUTHOR_ID_STRINGIFIED)).toBeNull();
+			});
 		});
 	});
 });

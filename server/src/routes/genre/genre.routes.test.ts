@@ -1,4 +1,5 @@
 import request from "supertest";
+import faker from "faker";
 
 import app from "../../app";
 
@@ -96,6 +97,44 @@ describe("Genre Related Requests", () => {
 			expect(firstBookOfTheGenre.genre).toStrictEqual(
 				MOCKED_GENRE_WITH_ID_STRINGFIED
 			);
+		});
+	});
+	describe("PATCH Requests", () => {
+		it("should update a genre", async () => {
+			const updatedName = faker.name.title();
+			const updatedDisplayName = faker.name.title();
+
+			const { body: updatedGenre }: { body: GenreType } = await request(app)
+				.patch(`/genres/${MOCKED_GENRE_ID_STRINGFIED}`)
+				.send({
+					name: updatedName,
+					displayName: updatedDisplayName,
+				})
+				.expect(200);
+
+			expect(updatedGenre._id).toStrictEqual(MOCKED_GENRE_ID_STRINGFIED);
+			expect(updatedGenre.name).toBe(updatedName);
+			expect(updatedGenre.displayName).toBe(updatedDisplayName);
+		});
+		it("should not update a genre when an invalid field is provided", async () => {
+			await request(app)
+				.patch(`/genres/${MOCKED_GENRE_ID_STRINGFIED}`)
+				.send({
+					invalidField: faker.lorem.word(7),
+				})
+				.expect(500);
+		});
+	});
+	describe("DELETE Requests", () => {
+		it("should delete a genre", async () => {
+			const { body: deletedGenre }: { body: GenreType } = await request(app)
+				.delete(`/genres/${MOCKED_GENRE_ID_STRINGFIED}`)
+				.expect(200);
+
+			expect(deletedGenre._id).toStrictEqual(MOCKED_GENRE_ID_STRINGFIED);
+			expect(deletedGenre.name).toBe(MOCKED_GENRE.name);
+			expect(deletedGenre.displayName).toBe(MOCKED_GENRE.displayName);
+			expect(await Genre.findById(MOCKED_GENRE_ID_STRINGFIED)).toBeNull();
 		});
 	});
 });

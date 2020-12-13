@@ -52,4 +52,48 @@ router.post("/", async (req: Request, res: Response) => {
 	}
 });
 
+router.patch("/:genreId", async (req: Request, res: Response) => {
+	try {
+		const {
+			body,
+			params: { genreId },
+		} = req;
+
+		const validFieldsToUpdate = ["name", "displayName"];
+		const receivedFieldsToUpdate = Object.keys(body);
+
+		const receivedFieldsToUpdateAreInvalid = !receivedFieldsToUpdate.every(
+			(field) => validFieldsToUpdate.includes(field)
+		);
+
+		if (receivedFieldsToUpdateAreInvalid) {
+			throw new Error("The provided fields are invalid.");
+		}
+
+		const genreToUpdate = await Genre.findById(genreId);
+		for (let field of receivedFieldsToUpdate) {
+			(genreToUpdate as any)[field] = body[field];
+			await genreToUpdate?.save();
+		}
+
+		res.status(200).send(genreToUpdate);
+	} catch (err) {
+		res.status(500).send(err.message);
+	}
+});
+
+router.delete("/:genreId", async (req: Request, res: Response) => {
+	try {
+		const {
+			params: { genreId },
+		} = req;
+
+		const deletedGenre = await Genre.findByIdAndDelete(genreId);
+
+		res.status(200).send(deletedGenre);
+	} catch (err) {
+		res.status(500).send(err.message);
+	}
+});
+
 export default router;
