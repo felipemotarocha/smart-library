@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useEffect } from "react";
-import { Button } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "src/redux/root.reducer";
 import { fetchGenresWithBooksStart } from "src/redux/genre/genre.actions";
+import GenrePreview from "src/components/genre-preview/genre-preview.component";
 
 export interface HomePageProps {}
 
@@ -15,17 +15,15 @@ const HomePage: React.FunctionComponent<HomePageProps> = () => {
 	const { genresWithBooks } = useSelector(selectGenreReducer);
 
 	useEffect(() => {
-		console.log({ genresWithBooks });
-	}, [genresWithBooks]);
+		dispatch(fetchGenresWithBooksStart());
+	}, [dispatch]);
 
 	return (
-		<Button
-			variant="contained"
-			color="primary"
-			onClick={() => dispatch(fetchGenresWithBooksStart())}
-		>
-			Dispatch!
-		</Button>
+		<>
+			{genresWithBooks?.map((genre) => (
+				<GenrePreview genre={genre} />
+			))}
+		</>
 	);
 };
 
