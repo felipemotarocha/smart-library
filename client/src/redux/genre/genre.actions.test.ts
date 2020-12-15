@@ -8,7 +8,7 @@ import {
 	FETCH_GENRES_WITH_BOOKS_START,
 	FETCH_GENRES_WITH_BOOKS_SUCCESS,
 } from "./genre.actions.types";
-import { MOCKED_GENRES_WITH_BOOKS } from "./mocks/genre.mocks";
+import { MOCKED_GENRES_WITH_BOOKS } from "./genre.mocks";
 
 describe("Genre Actions", () => {
 	it("should create an action to start the fetch of the genres with books", () => {

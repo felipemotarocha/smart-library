@@ -8,7 +8,7 @@ import {
 	fetchGenresWithBooksFailure,
 	fetchGenresWithBooksSuccess,
 } from "./genre.actions";
-import { MOCKED_GENRES_WITH_BOOKS } from "./mocks/genre.mocks";
+import { MOCKED_GENRES_WITH_BOOKS } from "./genre.mocks";
 import { initialState } from "./genre.reducer";
 
 const sagaMiddleware = createSagaMiddleware();

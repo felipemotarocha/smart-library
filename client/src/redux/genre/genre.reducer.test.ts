@@ -4,7 +4,7 @@ import {
 	FETCH_GENRES_WITH_BOOKS_SUCCESS,
 } from "./genre.actions.types";
 import genreReducer, { initialState } from "./genre.reducer";
-import { MOCKED_GENRES_WITH_BOOKS } from "./mocks/genre.mocks";
+import { MOCKED_GENRES_WITH_BOOKS } from "./genre.mocks";
 
 describe("Genre Reducer", () => {
 	it("should return the initial state", () => {
