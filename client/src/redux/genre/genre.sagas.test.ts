@@ -3,24 +3,18 @@ import createSagaMiddleware, { runSaga } from "redux-saga";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 
-import { GenreState } from "./genre.reducer.types";
 import { fetchGenresWithBooks } from "./genre.sagas";
 import {
 	fetchGenresWithBooksFailure,
 	fetchGenresWithBooksSuccess,
 } from "./genre.actions";
 import { MOCKED_GENRES_WITH_BOOKS } from "./mocks/genre.mocks";
+import { initialState } from "./genre.reducer";
 
 const sagaMiddleware = createSagaMiddleware();
 const middlewares: any = [sagaMiddleware];
 
 const mockStore = configureStore(middlewares);
-
-const initialState: GenreState = {
-	genres: null,
-	genresWithBooks: null,
-	loading: false,
-};
 
 describe("Genre Sagas", () => {
 	describe("Fetch Genres With Books", () => {
