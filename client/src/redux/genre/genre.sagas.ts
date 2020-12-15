@@ -8,7 +8,7 @@ import {
 } from "./genre.actions";
 import { GenreWithBooksPopulated } from "src/types/genre.types";
 
-function* fetchGenresWithBooks() {
+export function* fetchGenresWithBooks() {
 	try {
 		const {
 			data: genresWithBooks,
